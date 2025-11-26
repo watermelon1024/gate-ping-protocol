@@ -7,11 +7,8 @@ toolchain go1.24.6
 require (
 	github.com/go-logr/logr v1.4.3
 	github.com/robinbraemer/event v0.1.1
-	go.minekube.com/brigodier v0.0.2
 	go.minekube.com/common v0.3.0
 	go.minekube.com/gate v0.59.0
-	go.minekube.com/common v0.1.0
-	go.minekube.com/gate v0.51.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -21,7 +18,6 @@ require (
 	connectrpc.com/otelconnect v0.8.0 // indirect
 	github.com/Tnze/go-mc v1.20.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
-	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/coder/websocket v1.8.14 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
@@ -56,8 +52,6 @@ require (
 	github.com/segmentio/fasthash v1.0.3 // indirect
 	github.com/sethvargo/go-envconfig v1.3.0 // indirect
 	github.com/shirou/gopsutil/v4 v4.25.9 // indirect
-	github.com/shoenig/go-m1cpu v0.1.7 // indirect
-	github.com/sourcegraph/conc v0.3.1-0.20240121214520-5f936abd7ae8 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
@@ -69,7 +63,7 @@ require (
 	github.com/xrash/smetrics v0.0.0-20250705151800-55b8f293f342 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	github.com/zyedidia/generic v1.2.1 // indirect
-	go.minekube.com/brigodier v0.0.1 // indirect
+	go.minekube.com/brigodier v0.0.2 // indirect
 	go.minekube.com/connect v0.6.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/host v0.63.0 // indirect
