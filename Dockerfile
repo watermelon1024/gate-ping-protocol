@@ -1,5 +1,3 @@
-FROM eclipse-temurin:21-jre AS java-source
-
 FROM --platform=$BUILDPLATFORM golang:1.25.4 AS build
 
 WORKDIR /workspace
@@ -22,11 +20,8 @@ ARG TARGETOS TARGETARCH
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
     go build -ldflags="-s -w" -a -o gate gate.go
 
-# Move binary into final image
-FROM --platform=$BUILDPLATFORM gcr.io/distroless/static-debian11 AS app
-COPY --from=java-source /opt/java/openjdk /opt/java/openjdk
-ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
-COPY --from=build /workspace/gate /
-#COPY config.yml /
-CMD ["/gate"]
+# Move binary into final image (jre variant Gate image - temurin-25-jre, to support GeyserMC)
+FROM --platform=$BUILDPLATFORM eclipse-temurin:25-jre AS jre
+COPY --from=build /workspace/gate /gate
+ENV PATH=/opt/java/openjdk/bin:$PATH
+ENTRYPOINT ["/gate"]
