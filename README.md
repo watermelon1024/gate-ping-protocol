@@ -61,12 +61,12 @@ Example: (`protocol.example.yml`)
 
 ```yaml
 protocols:
-  - number: 763
-    names: ["1.20.1"]
-  - number: 762
-    names: ["1.19.4"]
   - number: 761
     names: ["1.19.3"]
+  - number: 762
+    names: ["1.19.4"]
+  - number: 763
+    names: ["1.20.1"]
 ```
 
 | Field   | Type      | Required | Description |

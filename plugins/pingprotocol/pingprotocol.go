@@ -3,14 +3,13 @@ package pingprotocol
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/go-logr/logr"
 	"github.com/robinbraemer/event"
+	"github.com/spf13/viper"
 	"go.minekube.com/gate/pkg/edition/java/proto/version"
 	"go.minekube.com/gate/pkg/edition/java/proxy"
 	"go.minekube.com/gate/pkg/gate/proto"
-	"gopkg.in/yaml.v3"
 )
 
 type Protocol struct {
@@ -27,17 +26,30 @@ var Plugin = proxy.Plugin{
 	Init: func(ctx context.Context, p *proxy.Proxy) error {
 		log := logr.FromContextOrDiscard(ctx)
 
-		data, err := os.ReadFile("protocol.yml")
+		v := viper.New()
+
+		v.SetConfigName("protocol")
+		v.SetConfigType("yml")
+
+		v.AddConfigPath(".")
+
+		err := v.ReadInConfig()
 		if err != nil {
-			log.Error(err, "Unable to read config file")
-			return err
+			if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+				log.Info("Plugin config file not found; the plugin will not be enabled.")
+				return nil
+			} else {
+				log.Error(err, "Unable to read plugin config")
+				return err
+			}
 		}
 
 		var cfg Config
-		if err := yaml.Unmarshal(data, &cfg); err != nil {
-			log.Error(err, "Unable to read config file")
+		if err := v.Unmarshal(&cfg); err != nil {
+			log.Error(err, "Unable to parse config")
 			return err
 		}
+
 		supportedVersions := func() (vs []*proto.Version) {
 			for _, p := range cfg.Protocols {
 				if p.Number == nil {
@@ -62,7 +74,7 @@ var Plugin = proxy.Plugin{
 
 		event.Subscribe(p.Event(), 0, onPing(supportedVersions))
 
-		log.Info("PingProtocol plugin init successfully!")
+		log.Info("PingProtocol plugin init successfully!", "protocols", supportedVersions)
 
 		return nil
 	},
